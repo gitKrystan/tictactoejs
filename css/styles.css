@@ -1,0 +1,8 @@
+
+.row {
+    padding: 24px;
+}
+
+img:hover {
+    background-color: rgb(200,100,100);
+}
