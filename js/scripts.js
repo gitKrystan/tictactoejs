@@ -12,11 +12,6 @@ function Space( locationX, locationY, team )
     this.location = [locationX,locationY,team];
 }
 
-Space.prototype.setPlayerToSpace = function( player )
-{
-    this.player = player;
-}
-
 function Board( )
 {
     this.spaces = [new Space(0,0,-1),new Space(0,1,-1),new Space(0,2,-1),
@@ -43,7 +38,8 @@ function Game( playerNameOne, playerNameTwo )
     this.currentPlayer = this.players[ this.move ];
 }
 
-$(document).ready( function( ) {
+$(document).ready( function( ) 
+{
     var game = new Game( $("#player-one").val( ), $("#player-two").val( ) );
     var currentPlayer = $("#current-player");
     
@@ -60,6 +56,8 @@ $(document).ready( function( ) {
             game.move = ( game.move == 0 ) ? 1 : 0;
             game.currentPlayer = game.players[ game.move ];
             currentPlayer.text( "Current Player: " + game.currentPlayer.name );
+            
+            clickedSquare.player = game.currentPlayer.team;
             
             var imageType = ( game.move == 0 ) ? "img/O.png" : "img/X.png";
             var elementName = "[name=" + event.currentTarget.name + "]";
