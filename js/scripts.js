@@ -114,13 +114,15 @@ $(document).ready( function( )
     
     function findRandomSpace( spaces )
     {
+        var availableSpaces = []
         for( var i = 0; i < spaces.length; i++ )
         {
-            if( spaces[ i ].player == -1)
+            if( spaces[ i ].player === -1)
             {
-                return spaces[ i ];
+                availableSpaces.push( spaces[ i ] );
             }
         }
+        return availableSpaces[ Math.floor( Math.random( ) * availableSpaces.length ) ];
     }
     
     function checkForWinner( spaces )
