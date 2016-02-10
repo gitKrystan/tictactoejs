@@ -105,6 +105,24 @@ $(document).ready( function( )
         }
         
         team = spaces[0].player;
+        if( spaces[3].player === team && spaces[6].player === team )
+        {
+            return spaces[0].player;
+        }
+        
+        team = spaces[1].player;
+        if( spaces[4].player === team && spaces[7].player === team )
+        {
+            return spaces[1].player;
+        }
+        
+        team = spaces[2].player;
+        if( spaces[5].player === team && spaces[8].player === team )
+        {
+            return spaces[2].player;
+        }        
+        
+        team = spaces[0].player;
         if( spaces[4].player === team && spaces[8].player === team )
         {
             return spaces[0].player;
