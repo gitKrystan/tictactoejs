@@ -1,6 +1,6 @@
 
-describe( 'default', function() {
-   it("Create default test", function() {
+describe( 'Tick Tac Toe', function() {
+   it("Creates player", function() {
       expect( ).to.equal( ); 
    });
 });
