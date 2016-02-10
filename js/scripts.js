@@ -1,9 +1,10 @@
 
 
-function Player( team, name )
+function Player( team, name, computer )
 {
     this.team = team;
     this.name = name;
+    this.computer = computer;
 }
 
 function Space( locationX, locationY, team )
@@ -33,7 +34,7 @@ Board.prototype.getSpaceByLocation = function( x, y )
 function Game( playerNameOne, playerNameTwo )
 {
     this.move = 0;
-    this.players = [new Player( 0, playerNameOne ), new Player( 1, playerNameTwo )];
+    this.players = [new Player( 0, playerNameOne, false ), new Player( 1, playerNameTwo, $("#computer").is(":checked") )];
     this.board = new Board( );
     this.currentPlayer = this.players[ this.move ];
     this.running = false;
@@ -43,31 +44,25 @@ $(document).ready( function( )
 {
     var game;
     var currentPlayer = $("#current-player");
+    var clickedSquare;
     
    $(".img-thumbnail").on("click", function( event ) {
         var x = parseInt( event.currentTarget.name[0] );
         var y = parseInt( event.currentTarget.name[1] );
             
-        var clickedSquare = game.board.getSpaceByLocation( x, y );
+        clickedSquare = game.board.getSpaceByLocation( x, y );
         
         if ( clickedSquare.player == -1 && game.running )
         {
-            clickedSquare.player = game.currentPlayer.team;
-            game.move = ( game.move == 0 ) ? 1 : 0;
-            game.currentPlayer = game.players[ game.move ];
-            currentPlayer.text( "Current Player: " + game.currentPlayer.name );
-            
             var imageType = ( game.move == 0 ) ? "img/O.png" : "img/X.png";
             var elementName = "[name=" + event.currentTarget.name + "]";
             $(elementName).attr("src", imageType );
-            
-            var checkWinner = checkForWinner( game.board.spaces );
-            if ( checkWinner != -1 )
-            {
-                $("#header").text( "Winner! - " + game.players[ checkWinner ].name );
-                game.running = false;
                 
-                currentPlayer.text( );
+            setupNextMove( );
+            
+            if( game.currentPlayer.computer )
+            {
+                computerMove( );
             }
         }
     });
@@ -83,6 +78,50 @@ $(document).ready( function( )
         $("#header").text( "Tic Tac Toe" );
         currentPlayer.text( "Current Player: " + game.currentPlayer.name );   
     });
+    
+    function setupNextMove( )
+    {
+        clickedSquare.player = game.currentPlayer.team;
+         
+        var checkWinner = checkForWinner( game.board.spaces );
+        if ( checkWinner != -1 )
+        {
+           $("#header").text( "Winner! - " + game.players[ checkWinner ].name );
+           game.running = false;
+                    
+           currentPlayer.text( );
+        }
+                
+        game.move = ( game.move == 0 ) ? 1 : 0;
+        game.currentPlayer = game.players[ game.move ];
+        currentPlayer.text( "Current Player: " + game.currentPlayer.name );
+    }
+    
+    function computerMove( )
+    {
+        if( game.running )
+        {
+            var randomSpace = findRandomSpace( game.board.spaces );
+            var randomSpaceName = randomSpace.location[0].toString( ) + randomSpace.location[1].toString( );
+            var imageType = ( game.move == 0 ) ? "img/O.png" : "img/X.png";
+            
+            clickedSquare = game.board.getSpaceByLocation( randomSpace.location[0], randomSpace.location[1] );
+            $("[name=" + randomSpaceName + "]").attr("src", imageType);
+                
+            setupNextMove( );
+        }
+    }
+    
+    function findRandomSpace( spaces )
+    {
+        for( var i = 0; i < spaces.length; i++ )
+        {
+            if( spaces[ i ].player == -1)
+            {
+                return spaces[ i ];
+            }
+        }
+    }
     
     function checkForWinner( spaces )
     {
