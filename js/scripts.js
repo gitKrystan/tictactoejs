@@ -39,15 +39,16 @@ function Game(playerNameOne, playerNameTwo)
   this.running = true;
 }
 
-function findRandomSpace(spaces)
+Board.prototype.findRandomSpace = function()
 {
-  var availableSpaces = findAvailableSpaces(spaces);
+  var availableSpaces = this.findAvailableSpaces();
   return availableSpaces[Math.floor(Math.random() * availableSpaces.length)];
 }
 
-function findAvailableSpaces(spaces)
+Board.prototype.findAvailableSpaces = function()
 {
-  var availableSpaces = []
+  var spaces = this.spaces;
+  var availableSpaces = [];
   for(var i = 0; i < spaces.length; i++)
   {
     if(spaces[i].player === -1)
@@ -58,8 +59,9 @@ function findAvailableSpaces(spaces)
   return availableSpaces
 }
 
-function checkForWinner(spaces)
+Board.prototype.checkForWinner = function()
 {
+  spaces = this.spaces;
   var team = spaces[0].player;
   // Check if top row belongs to one player
   if(spaces[1].player === team && spaces[2].player === team)
@@ -115,12 +117,14 @@ function checkForWinner(spaces)
 $(document).ready(function()
 {
   var game;
+  var board;
   var clickedSquare;
   var $currentPlayer = $("#current-player");
 
   // Start the game
   $("#start-game").on("click", function() {
     game = new Game($("#player-one").val(), $("#player-two").val());
+    board = game.board;
 
     // Reset all tiles to white
     $(".img-thumbnail").each(function() {
@@ -137,7 +141,7 @@ $(document).ready(function()
     var x = parseInt(this.name[0]);
     var y = parseInt(this.name[1]);
 
-    clickedSquare = game.board.getSpaceByLocation(x, y);
+    clickedSquare = board.getSpaceByLocation(x, y);
 
     // if there is no current player assigned to the clicked square
     if (clickedSquare.player === -1 && game.running)
@@ -159,7 +163,7 @@ $(document).ready(function()
   {
     clickedSquare.player = game.currentPlayer.team;
 
-    var checkWinner = checkForWinner(game.board.spaces);
+    var checkWinner = board.checkForWinner();
     // If there is a winner...
     if (checkWinner != -1)
     {
@@ -178,11 +182,11 @@ $(document).ready(function()
 
   function computerMove()
   {
-    var randomSpace = findRandomSpace(game.board.spaces);
+    var randomSpace = board.findRandomSpace();
     var randomSpaceName = randomSpace.location[0].toString() + randomSpace.location[1].toString();
     var imageType = (game.move == 0) ? "img/O.png" : "img/X.png";
 
-    clickedSquare = game.board.getSpaceByLocation(randomSpace.location[0], randomSpace.location[1]);
+    clickedSquare = board.getSpaceByLocation(randomSpace.location[0], randomSpace.location[1]);
     $("[name=" + randomSpaceName + "]").attr("src", imageType);
 
     setupNextMove();
