@@ -30,21 +30,6 @@ Board.prototype.getSpaceByLocation = function(x, y)
   }
 };
 
-function Game(playerNameOne, playerNameTwo)
-{
-  this.move = 0;
-  this.players = [new Player(0, playerNameOne, false), new Player(1, playerNameTwo, $("#computer").is(":checked"))];
-  this.board = new Board();
-  this.currentPlayer = this.players[this.move];
-  this.running = true;
-}
-
-Board.prototype.findRandomSpace = function()
-{
-  var availableSpaces = this.findAvailableSpaces();
-  return availableSpaces[Math.floor(Math.random() * availableSpaces.length)];
-}
-
 Board.prototype.findAvailableSpaces = function()
 {
   var spaces = this.spaces;
@@ -112,6 +97,86 @@ Board.prototype.checkForWinner = function()
   }
   // If no conditions are met, return no player
   return -1;
+}
+
+Board.prototype.getComputerChoice = function () {
+  var move = -1;
+  var twoInLineCheck = this.checkForTwoInLine();
+  if (twoInLineCheck[0] === 1 && twoInLineCheck[1]) { // Check for possibility of a win
+    move = twoInLineCheck[1];
+  } else if (twoInLineCheck[0] === 0 && twoInLineCheck[1]) { // Check for possibility of a block
+    move = twoInLineCheck[1];
+  } else {
+    return this.findRandomSpace();
+  }
+  return this.spaces[move];
+};
+
+Board.prototype.checkForTwoInLine = function ()
+{
+  // Check horizontal
+  for (var i = 0; i <= 6; i += 3) {
+    var rowCheck = this.checkForTwoLoop(i, i + 2, 1);
+    if (rowCheck[0] > -1) {
+      return rowCheck;
+    }
+  }
+  // Check vertical
+  for (var i = 0; i <= 2; i += 1) {
+    var rowCheck = this.checkForTwoLoop(i, i + 6, 3);
+    if (rowCheck[0] > -1) {
+      return rowCheck;
+    }
+  }
+  // Check diagonal 1
+  var rowCheck = this.checkForTwoLoop(0, 8, 4);
+  if (rowCheck[0] > -1) {
+    return rowCheck;
+  }
+  // Check diagonal 2
+  var rowCheck = this.checkForTwoLoop(2, 6, 2);
+  return rowCheck;
+};
+
+Board.prototype.checkForTwoLoop = function (startingIndex, endingIndex, interval)
+{
+  var spaces = this.spaces;
+
+  var player0Spaces = 0;
+  var player1Spaces = 0;
+  var emptySpace;
+  for (var i = startingIndex; i <= endingIndex; i += interval) {
+    if(spaces[i].player === 0) {
+      player0Spaces += 1;
+    } else if (spaces[i].player === 1) {
+      player1Spaces += 1;
+    } else {
+      emptySpace = i;
+    }
+  }
+
+  if (player0Spaces === 2) {
+    return [0, emptySpace];
+  } else if (player1Spaces === 2) {
+    return [1, emptySpace];
+  } else {
+    return [-1];
+  }
+};
+
+Board.prototype.findRandomSpace = function()
+{
+  var availableSpaces = this.findAvailableSpaces();
+  return availableSpaces[Math.floor(Math.random() * availableSpaces.length)];
+}
+
+function Game(playerNameOne, playerNameTwo)
+{
+  this.move = 0;
+  this.players = [new Player(0, playerNameOne, false), new Player(1, playerNameTwo, $("#computer").is(":checked"))];
+  this.board = new Board();
+  this.currentPlayer = this.players[this.move];
+  this.running = true;
 }
 
 $(document).ready(function()
@@ -182,12 +247,12 @@ $(document).ready(function()
 
   function computerMove()
   {
-    var randomSpace = board.findRandomSpace();
-    var randomSpaceName = randomSpace.location[0].toString() + randomSpace.location[1].toString();
+    var space = board.getComputerChoice();
+    var spaceName = space.location[0].toString() + space.location[1].toString();
     var imageType = (game.move == 0) ? "img/O.png" : "img/X.png";
 
-    clickedSquare = board.getSpaceByLocation(randomSpace.location[0], randomSpace.location[1]);
-    $("[name=" + randomSpaceName + "]").attr("src", imageType);
+    clickedSquare = board.getSpaceByLocation(space.location[0], space.location[1]);
+    $("[name=" + spaceName + "]").attr("src", imageType);
 
     setupNextMove();
   }
