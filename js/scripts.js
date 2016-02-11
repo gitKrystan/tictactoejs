@@ -58,6 +58,60 @@ function findAvailableSpaces(spaces)
   return availableSpaces
 }
 
+function checkForWinner(spaces)
+{
+  var team = spaces[0].player;
+  // Check if top row belongs to one player
+  if(spaces[1].player === team && spaces[2].player === team)
+  {
+    return spaces[0].player;
+  }
+  // Check if middle row belongs to one player
+  team = spaces[3].player;
+  if(spaces[4].player === team && spaces[5].player === team)
+  {
+    return spaces[3].player;
+  }
+  // Check if bottom row belongs to one player
+  team = spaces[6].player;
+  if(spaces[7].player === team && spaces[8].player === team)
+  {
+    return spaces[6].player;
+  }
+  // Check if first column belongs to one player
+  team = spaces[0].player;
+  if(spaces[3].player === team && spaces[6].player === team)
+  {
+    return spaces[0].player;
+  }
+  // Check if middle column belongs to one player
+  team = spaces[1].player;
+  if(spaces[4].player === team && spaces[7].player === team)
+  {
+    return spaces[1].player;
+  }
+  // Check if last column belongs to one player
+  team = spaces[2].player;
+  if(spaces[5].player === team && spaces[8].player === team)
+  {
+    return spaces[2].player;
+  }
+  // Check if 0-9 diagonal belongs to one player
+  team = spaces[0].player;
+  if(spaces[4].player === team && spaces[8].player === team)
+  {
+    return spaces[0].player;
+  }
+  // Check if 2-6 diagonal belongs to one player
+  team = spaces[6].player;
+  if(spaces[4].player === team && spaces[2].player === team)
+  {
+    return spaces[6].player;
+  }
+  // If no conditions are met, return no player
+  return -1;
+}
+
 $(document).ready(function()
 {
   var game;
@@ -132,59 +186,5 @@ $(document).ready(function()
     $("[name=" + randomSpaceName + "]").attr("src", imageType);
 
     setupNextMove();
-  }
-
-  function checkForWinner(spaces)
-  {
-    var team = spaces[0].player;
-    // Check if top row belongs to one player
-    if(spaces[1].player === team && spaces[2].player === team)
-    {
-      return spaces[0].player;
-    }
-    // Check if middle row belongs to one player
-    team = spaces[3].player;
-    if(spaces[4].player === team && spaces[5].player === team)
-    {
-      return spaces[3].player;
-    }
-    // Check if bottom row belongs to one player
-    team = spaces[6].player;
-    if(spaces[7].player === team && spaces[8].player === team)
-    {
-      return spaces[6].player;
-    }
-    // Check if first column belongs to one player
-    team = spaces[0].player;
-    if(spaces[3].player === team && spaces[6].player === team)
-    {
-      return spaces[0].player;
-    }
-    // Check if middle column belongs to one player
-    team = spaces[1].player;
-    if(spaces[4].player === team && spaces[7].player === team)
-    {
-      return spaces[1].player;
-    }
-    // Check if last column belongs to one player
-    team = spaces[2].player;
-    if(spaces[5].player === team && spaces[8].player === team)
-    {
-      return spaces[2].player;
-    }
-    // Check if 0-9 diagonal belongs to one player
-    team = spaces[0].player;
-    if(spaces[4].player === team && spaces[8].player === team)
-    {
-      return spaces[0].player;
-    }
-    // Check if 2-6 diagonal belongs to one player
-    team = spaces[6].player;
-    if(spaces[4].player === team && spaces[2].player === team)
-    {
-      return spaces[6].player;
-    }
-    // If no conditions are met, return no player
-    return -1;
   }
 });
