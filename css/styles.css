@@ -1,16 +1,15 @@
-
 .row {
-    padding: 24px;
+  padding: 24px;
 }
 
 h1 {
-    color: rgb(255,255,255);
+  color: rgb(255,255,255);
 }
 
 img:hover {
-    background-color: rgb(200,100,100);
+  background-color: rgb(200,100,100);
 }
 
 body {
-    background-color: rgb(42,42,42);
+  background-color: rgb(42,42,42);
 }
