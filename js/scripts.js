@@ -39,6 +39,25 @@ function Game(playerNameOne, playerNameTwo)
   this.running = true;
 }
 
+function findRandomSpace(spaces)
+{
+  var availableSpaces = findAvailableSpaces(spaces);
+  return availableSpaces[Math.floor(Math.random() * availableSpaces.length)];
+}
+
+function findAvailableSpaces(spaces)
+{
+  var availableSpaces = []
+  for(var i = 0; i < spaces.length; i++)
+  {
+    if(spaces[i].player === -1)
+    {
+      availableSpaces.push(spaces[i]);
+    }
+  }
+  return availableSpaces
+}
+
 $(document).ready(function()
 {
   var game;
@@ -113,19 +132,6 @@ $(document).ready(function()
     $("[name=" + randomSpaceName + "]").attr("src", imageType);
 
     setupNextMove();
-  }
-
-  function findRandomSpace(spaces)
-  {
-    var availableSpaces = []
-    for(var i = 0; i < spaces.length; i++)
-    {
-      if(spaces[i].player === -1)
-      {
-        availableSpaces.push(spaces[i]);
-      }
-    }
-    return availableSpaces[Math.floor(Math.random() * availableSpaces.length)];
   }
 
   function checkForWinner(spaces)
