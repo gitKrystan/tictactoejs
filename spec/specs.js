@@ -76,4 +76,32 @@ describe('Board', function() {
         .eql([0, 0]);
     });
   });
+
+  describe('.getComputerChoice', function() {
+    it('will win if possible', function() {
+      var game = new Game( );
+      var players = game.players;
+      var board = game.board;
+      var spaces = board.spaces;
+      var topLeftSquare = spaces[0];
+      var middleMiddleSquare = spaces[4];
+      var bottomRightSquare = spaces[8];
+      topLeftSquare.player = 1;
+      middleMiddleSquare.player = 1;
+      expect(board.getComputerChoice()).to.equal(bottomRightSquare);
+    });
+
+    it('will block if possible', function() {
+      var game = new Game( );
+      var players = game.players;
+      var board = game.board;
+      var spaces = board.spaces;
+      var topLeftSquare = spaces[0];
+      var middleMiddleSquare = spaces[4];
+      var bottomRightSquare = spaces[8];
+      topLeftSquare.player = 0;
+      middleMiddleSquare.player = 0;
+      expect(board.getComputerChoice()).to.equal(bottomRightSquare);
+    })
+  });
 });
