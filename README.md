@@ -10,6 +10,8 @@ Working from the other team's code on Day 2, we had to add an AI opponent. This 
 
 This repo shows our Day 2 code. To see what we started with, visit the original repo [here](https://github.com/Vawx/tictactoejs.git).
 
+Testing with Mocha/Chai.
+
 ## Setup
 
 Install by cloning this repository.
