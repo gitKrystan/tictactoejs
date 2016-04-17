@@ -1,10 +1,19 @@
 # Tic Tac Toe
 
+#### By Kyle Langley (day 1) and Krystan Menne and Nathan Romike (day 2)
+
 ## Description
-Simple web app using javascript to have a user play tic tac toe
 
-## Author
-Kyle Langley
+This app allows a user to play tic-tac-toe against a virtually unbeatable opponent. The purpose of this assignment at Epicodus was to write code for the basic tic-tac-toe game on Day 1, then switch with a neighboring team for Day 2.
 
-## License
-MIT <2016> <Epicodus>
+Working from the other team's code on Day 2, we had to add an AI opponent. This exercise showed how important it is to write clean code so that another developer can work with your code.
+
+## Setup
+
+Install by cloning this repository.
+
+### License
+
+Copyright (c) 2016 Kyle Langley, Krystan Menne, and Nathan Romike
+
+This software is licensed under the MIT license.
