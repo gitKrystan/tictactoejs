@@ -8,6 +8,8 @@ This app allows a user to play tic-tac-toe against a virtually unbeatable oppone
 
 Working from the other team's code on Day 2, we had to add an AI opponent. This exercise showed how important it is to write clean code so that another developer can work with your code.
 
+This repo shows our Day 2 code. To see what we started with, visit the original repo [here](https://github.com/Vawx/tictactoejs.git).
+
 ## Setup
 
 Install by cloning this repository.
